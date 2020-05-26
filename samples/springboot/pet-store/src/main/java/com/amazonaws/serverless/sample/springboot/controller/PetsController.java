@@ -13,65 +13,43 @@
 package com.amazonaws.serverless.sample.springboot.controller;
 
 
-
-import com.amazonaws.serverless.sample.springboot.model.Pet;
-import com.amazonaws.serverless.sample.springboot.model.PetData;
-
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.security.Principal;
-import java.util.Optional;
-import java.util.UUID;
-
 
 @RestController
 @EnableWebMvc
 public class PetsController {
-    @RequestMapping(path = "/pets", method = RequestMethod.POST)
-    public Pet createPet(@RequestBody Pet newPet) {
-        if (newPet.getName() == null || newPet.getBreed() == null) {
-            return null;
-        }
 
-        Pet dbPet = newPet;
-        dbPet.setId(UUID.randomUUID().toString());
-        return dbPet;
-    }
+  @RequestMapping(path = "/states/health", method = RequestMethod.GET)
+  public String health() {
+    return "Hello World";
+  }
 
-    @RequestMapping(path = "/pets", method = RequestMethod.GET)
-    public Pet[] listPets(@RequestParam("limit") Optional<Integer> limit, Principal principal) {
-        int queryLimit = 10;
-        if (limit.isPresent()) {
-            queryLimit = limit.get();
-        }
+  @RequestMapping(path = "/states/{collectorNumber}", method = RequestMethod.GET)
+  public String collectorNumber(@PathVariable("collectorNumber") String collectorNumber,
+      @RequestParam("requestParamCollectorNumber") String requestParamCollectorNumber,
+      @RequestHeader(name = "requestHeaderCollectorNumber")
+          String requestHeaderCollectorNumber) {
+    return "Hello World GET my collectorNumber from authorizer from Path Param is " + collectorNumber
+        + " and my requestHeaderCollectorNumber " + requestHeaderCollectorNumber
+        + " and my requestParamCollectorNumber " + requestParamCollectorNumber;
+  }
 
-        Pet[] outputPets = new Pet[queryLimit];
+  @RequestMapping(path = "/states/{collectorNumber}", method = RequestMethod.POST)
+  public String postCollectorNumber(@PathVariable("PostCollectorNumber") String PostCollectorNumber,
+      @RequestParam("requestPostParamCollectorNumber") String requestPostParamCollectorNumber,
+      @RequestHeader(name = "requestPostHeaderCollectorNumber")
+          String requestPostHeaderCollectorNumber) {
+    return "Hello World POST my collectorNumber from authorizer from Path Param is " + PostCollectorNumber
+        + " and my requestHeaderCollectorNumber " + requestPostHeaderCollectorNumber
+        + " and my requestParamCollectorNumber " + requestPostParamCollectorNumber;
+  }
 
-        for (int i = 0; i < queryLimit; i++) {
-            Pet newPet = new Pet();
-            newPet.setId(UUID.randomUUID().toString());
-            newPet.setName(PetData.getRandomName());
-            newPet.setBreed(PetData.getRandomBreed());
-            newPet.setDateOfBirth(PetData.getRandomDoB());
-            outputPets[i] = newPet;
-        }
-
-        return outputPets;
-    }
-
-    @RequestMapping(path = "/pets/{petId}", method = RequestMethod.GET)
-    public Pet listPets() {
-        Pet newPet = new Pet();
-        newPet.setId(UUID.randomUUID().toString());
-        newPet.setBreed(PetData.getRandomBreed());
-        newPet.setDateOfBirth(PetData.getRandomDoB());
-        newPet.setName(PetData.getRandomName());
-        return newPet;
-    }
 
 }
