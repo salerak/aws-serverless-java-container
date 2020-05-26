@@ -36,7 +36,8 @@ public class PetsController {
       @RequestParam("requestParamCollectorNumber") String requestParamCollectorNumber,
       @RequestHeader(name = "requestHeaderCollectorNumber")
           String requestHeaderCollectorNumber) {
-    return "Hello World GET my collectorNumber from authorizer from Path Param is " + collectorNumber
+    return "Hello World GET my collectorNumber from authorizer from Path Param is "
+        + collectorNumber
         + " and my requestHeaderCollectorNumber " + requestHeaderCollectorNumber
         + " and my requestParamCollectorNumber " + requestParamCollectorNumber;
   }
@@ -46,7 +47,8 @@ public class PetsController {
       @RequestParam("requestPostParamCollectorNumber") String requestPostParamCollectorNumber,
       @RequestHeader(name = "requestPostHeaderCollectorNumber")
           String requestPostHeaderCollectorNumber) {
-    return "Hello World POST my collectorNumber from authorizer from Path Param is " + PostCollectorNumber
+    return "Hello World POST my collectorNumber from authorizer from Path Param is "
+        + PostCollectorNumber
         + " and my requestHeaderCollectorNumber " + requestPostHeaderCollectorNumber
         + " and my requestParamCollectorNumber " + requestPostParamCollectorNumber;
   }
